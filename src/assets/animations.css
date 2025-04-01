@@ -207,6 +207,11 @@
 .button-holographic {
   position: relative;
   overflow: hidden;
+  padding: 0.75rem 1.5rem;
+  min-height: 3rem;
+  /* Vylepšenie pre dotykové zariadenia */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .button-holographic::before {
   content: '';
@@ -358,19 +363,25 @@
 
 /* Štýl pre filter tlačidlá - širší padding */
 .filter-button {
-  padding: 10px 25px; /* Zväčšený padding */
-  border-radius: 25px; /* Väčšie zaoblenie */
-  background-color: rgba(255, 255, 255, 0.03);
-  color: #b0b0b0; /* Trochu tmavšia neaktívna farba */
-  font-weight: 600; /* Mierne tučnejšie */
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Plynulejší prechod */
+  @apply font-barlow bg-secondary-dark bg-opacity-60 text-light-gray;
   position: relative;
+  transition: all 0.3s ease;
+  border-radius: 0.375rem;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 3px 8px rgba(0,0,0, 0.25);
-  display: inline-flex; /* Aby ikonka a text boli pekne vedľa seba */
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+  min-height: 3rem;
+  min-width: 6rem;
+  text-transform: uppercase;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  /* Vylepšenie pre dotykové zariadenia - väčší touch target */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hover efekt - jemnejší */
@@ -660,5 +671,124 @@
   }
   100% {
     background-position: 68px 120px; /* Posun o 2x veľkosť pre plynulý loop */
+  }
+}
+
+/* Pridávam media queries pre mobilné zariadenia vrátane iPhone */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.25rem !important; /* Menší nadpis pre malé iPhone */
+    letter-spacing: 0.05em;
+  }
+  
+  .hero-description {
+    font-size: 1rem !important;
+    line-height: 1.5;
+  }
+  
+  .hero-text-container {
+    padding: 1.25rem;
+    max-width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .filter-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Menšie ikony v tlačidlách */
+  .filter-button svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  
+  /* Upravená veľkosť sekčného nadpisu */
+  .section-title-animate {
+    font-size: 2rem !important;
+  }
+}
+
+/* Špecifické pravidlá pre iPhone vrátane iPhone 13, 14, 15 a 16 Pro */
+@media only screen and (device-width: 390px) and (device-height: 844px),
+       only screen and (device-width: 393px) and (device-height: 852px),
+       only screen and (device-width: 428px) and (device-height: 926px),
+       only screen and (device-width: 430px) and (device-height: 932px) {
+  
+  .hero-section-with-real-image {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .hero-text-container {
+    margin-top: 1rem;
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  
+  /* Optimalizácia pre landscape mode */
+  @media (orientation: landscape) {
+    .hero-text-container {
+      padding: 1rem;
+      margin-top: calc(env(safe-area-inset-top) + 3rem);
+    }
+    
+    .hero-title {
+      font-size: 2rem !important;
+    }
+    
+    .hero-description {
+      font-size: 0.875rem !important;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* Štýly pre tlačidlá - vylepšenie pre dotykové obrazovky */
+@media (max-width: 480px) {
+  .button-holographic {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* Štýly pre blueprint-streamer na mobiloch */
+@media (max-width: 768px) {
+  .blueprint-streamer {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+  }
+}
+
+/* Upravené animácie pre rýchlejší priebeh na mobilných zariadeniach */
+@media (max-width: 768px) {
+  @keyframes powerUpLine {
+    0% {
+      stroke-dashoffset: 400;
+      opacity: 0;
+      filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+    }
+    10% {
+      opacity: 0.8;
+      filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.6));
+    }
+    40% {
+      stroke-dashoffset: 150;
+      opacity: 1;
+      filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
+    }
+    70% {
+      stroke-dashoffset: 30;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 0, 1));
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.9));
+    }
   }
 } 

@@ -346,6 +346,23 @@ const HomePage = () => {
     };
   }, []); // Spustí sa len raz po mountnutí
 
+  // Fix pre 100vh bug na iOS
+  useEffect(() => {
+    const setVhVariable = () => {
+      // Nastavíme custom --vh premennú podľa aktuálnej výšky viewportu
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    // Pri načítaní a zmene veľkosti okna
+    setVhVariable();
+    window.addEventListener('resize', setVhVariable);
+    
+    return () => {
+      window.removeEventListener('resize', setVhVariable);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col hero-animate">
       <Header />
@@ -578,25 +595,25 @@ const HomePage = () => {
             
             {/* Kontajner pre filtre */}
             <div 
-              className="filter-container flex justify-center space-x-4 sm:space-x-8 mb-16 relative" 
+              className="filter-container flex flex-wrap justify-center gap-4 sm:gap-8 mb-12 md:mb-16 relative px-2 sm:px-0" 
               ref={filterContainerRef}
             >
               <button 
-                  className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
+                  className={`filter-button py-3 px-4 sm:py-3 sm:px-6 ${activeFilter === 'all' ? 'active' : ''}`}
                   onClick={(e) => handleFilterClick('all', e)}
                   data-filter="all"
               >
                   <FaThLarge className="inline mr-2 mb-1" /> <span className="filter-text">Všetky</span>
               </button>
               <button 
-                  className={`filter-button ${activeFilter === 'fpv' ? 'active' : ''}`}
+                  className={`filter-button py-3 px-4 sm:py-3 sm:px-6 ${activeFilter === 'fpv' ? 'active' : ''}`}
                   onClick={(e) => handleFilterClick('fpv', e)}
                   data-filter="fpv"
               >
                   <FaHelicopter className="inline mr-2 mb-1" /> <span className="filter-text">FPV Drony</span>
               </button>
               <button 
-                  className={`filter-button ${activeFilter === 'bike' ? 'active' : ''}`}
+                  className={`filter-button py-3 px-4 sm:py-3 sm:px-6 ${activeFilter === 'bike' ? 'active' : ''}`}
                   onClick={(e) => handleFilterClick('bike', e)}
                   data-filter="bike"
               >
@@ -626,7 +643,7 @@ const HomePage = () => {
             </div>
             {/* Formulár na pridanie videa */} 
             {isAddingVideo && (
-              <div className="bg-dark-gray bg-opacity-80 backdrop-filter backdrop-blur-sm p-6 rounded-lg mb-10 shadow-lg max-w-2xl mx-auto">
+              <div className="bg-dark-gray bg-opacity-80 backdrop-filter backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 md:mb-10 shadow-lg max-w-2xl mx-auto">
                 <h3 className="text-xl font-bold mb-4 text-white">Pridaj svoje video</h3>
                  <div className="space-y-4">
                     <div>
@@ -664,13 +681,13 @@ const HomePage = () => {
                       </select>
                     </div>
                  </div>
-                 <div className="flex justify-end">
-                   <Button onClick={handleAddVideo} className="ripple-effect">PRIDAŤ VIDEO</Button>
+                 <div className="flex justify-end mt-4">
+                   <Button onClick={handleAddVideo} className="ripple-effect py-2 sm:py-3">PRIDAŤ VIDEO</Button>
                  </div>
               </div>
             )}
             {/* Grid s videami */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-4 md:px-0">
               {userVideos.map((video, index) => (
                  <div key={video.id} className="card-3d-effect" style={{ animationDelay: `${index * 0.2}s` }}>
                    <VideoCard video={video} className="card-3d-content" />

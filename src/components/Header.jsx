@@ -3,41 +3,53 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0); // State pre plynulú animáciu
+  
+  // Dynamické hodnoty na základe scrollovania
+  const dynamicBgOpacity = Math.min(0.9, Math.max(0.6, scrollProgress * 1.2));
+  const dynamicBlur = `${Math.min(10, Math.max(5, scrollProgress * 15))}px`;
+  const dynamicPaddingTop = scrolled ? `${Math.max(0.5, 1.5 - scrollProgress)}rem` : '1.5rem';
+  const dynamicPaddingBottom = scrolled ? `${Math.max(0.5, 1.5 - scrollProgress)}rem` : '1.5rem';
+  const dynamicBottomOffset = scrolled ? '0px' : '-1px';
 
-  // Event listener pre scrollovanie
+  // Nastavenie počúvania na scroll udalosť
   useEffect(() => {
     const handleScroll = () => {
-      // Základná detekcia scrollovania
-      const isScrolled = window.scrollY > 20;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
+      // Ak sme scrollli viac ako 50px, nastavíme header ako scrolled
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
       
-      // Plynulý prechod - hodnota od 0 do 1 založená na scrollovaní
-      const scrollRange = 100; // Rozsah scrollovania, v ktorom sa prechod má odohrať
-      const progress = Math.min(1, window.scrollY / scrollRange);
-      setScrollProgress(progress);
+      // Výpočet progress pre progress bar - max hodnota je výška dokumentu - výška okna
+      const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+      const progressValue = Math.min(1, window.scrollY / scrollMax);
+      setScrollProgress(progressValue);
     };
-
-    window.addEventListener('scroll', handleScroll);
-
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Pri prvom načítaní stránky
+    handleScroll();
+    
+    // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrolled]);
+  }, []);
 
-  // Dynamické štýly založené na scrollProgress
-  const dynamicBgOpacity = scrollProgress * 0.9; // Maximálna opacita 0.9
-  const dynamicBlur = `${scrollProgress * 8}px`; // Maximálny blur 8px
-  const dynamicPaddingTop = `${Math.max(4, 20 - (scrollProgress * 16))}px`; // Od 20px do 4px
-  const dynamicPaddingBottom = `${Math.max(20, 100 - (scrollProgress * 80))}px`; // Od 100px do 20px
-
-  // Nová dynamická hodnota pre pozíciu červenej čiary
-  const initialBottomOffset = 80; // Odhadovaná počiatočná hodnota v px, aby bola čiara pod menu
-  const dynamicBottomOffset = `${Math.max(0, initialBottomOffset - (scrollProgress * initialBottomOffset))}px`; // Klesá z initialBottomOffset na 0
-
+  // Po otvorení mobilného menu zablokovať scrollovanie body
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+  
   return (
     <header 
       className="fixed w-full z-50 transition-all duration-700 ease-in-out"
@@ -45,26 +57,26 @@ const Header = () => {
         backgroundColor: scrolled ? `rgba(24, 24, 24, ${dynamicBgOpacity})` : 'transparent',
         backdropFilter: scrolled ? `blur(${dynamicBlur})` : 'none',
         WebkitBackdropFilter: scrolled ? `blur(${dynamicBlur})` : 'none',
-        paddingTop: dynamicPaddingTop,
+        paddingTop: `calc(${dynamicPaddingTop} + env(safe-area-inset-top))`,
         paddingBottom: dynamicPaddingBottom,
         boxShadow: scrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' : 'none',
         borderBottom: scrolled ? 'none' : '1px solid rgba(255, 0, 0, 0.2)', // Jemná červená linka keď nie je scrollnuté
       }}
     >
-      <div className="container mx-auto px-6 flex justify-between items-start relative">
-        {/* Logo */}
-        <Link to="/" className="text-5xl font-bold relative overflow-hidden font-barlow tracking-wider">
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-start relative">
+        {/* Logo - upravené pre lepšiu čitateľnosť na mobiloch */}
+        <Link to="/" className="text-3xl sm:text-4xl md:text-5xl font-bold relative overflow-hidden font-barlow tracking-wider">
           <span className="text-white">FPV</span>
           <span className="text-primary-red">ZONE</span>
         </Link>
 
         {/* Desktopové menu */}
-        <nav className="hidden md:flex space-x-24 font-barlow">
+        <nav className="hidden md:flex space-x-12 lg:space-x-24 font-barlow">
           {['Domov', 'Videá', 'O nás', 'Kontakt'].map((item, index) => (
             <Link 
               key={item} 
               to={item === 'Domov' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
-              className="text-2xl text-light-gray hover:text-pure-white relative py-2 overflow-hidden ripple-effect group menu-item-border-animate"
+              className="text-xl lg:text-2xl text-light-gray hover:text-pure-white relative py-2 overflow-hidden ripple-effect group menu-item-border-animate"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Text s animovaným efektom */}
@@ -76,12 +88,13 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Ikona hamburgeru pre mobilné zariadenia */}
+        {/* Ikona hamburgeru pre mobilné zariadenia - zväčšená pre lepšiu použiteľnosť */}
         <button 
-          className="md:hidden text-light-gray hover:text-pure-white ripple-effect"
+          className="md:hidden text-light-gray hover:text-pure-white ripple-effect p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Zavrieť menu" : "Otvoriť menu"}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
           </svg>
         </button>
@@ -98,16 +111,28 @@ const Header = () => {
         ></div>
       </div>
 
-      {/* Mobilné menu */}
-      <div className={`md:hidden bg-dark-gray bg-opacity-95 backdrop-filter backdrop-blur-lg overflow-hidden transition-all duration-500 ease-in-out ${
-        isMobileMenuOpen ? 'max-h-screen py-10 shadow-xl' : 'max-h-0'
-      }`}>
-        <nav className="container mx-auto px-6 flex flex-col items-center justify-center space-y-8 font-barlow h-full">
+      {/* Mobilné menu - optimalizované pre iPhone */}
+      <div className={`fixed inset-0 z-40 bg-dark-gray bg-opacity-95 backdrop-filter backdrop-blur-lg transform transition-transform duration-500 ease-in-out ${
+        isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+      }`} style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        <div className="absolute top-4 right-4" style={{ top: 'calc(1rem + env(safe-area-inset-top))' }}>
+          <button 
+            className="text-light-gray hover:text-pure-white p-2" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Zavrieť menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <nav className="h-full flex flex-col items-center justify-center space-y-8 font-barlow">
           {['Domov', 'Videá', 'O nás', 'Kontakt'].map((item, index) => (
             <Link 
               key={item} 
               to={item === 'Domov' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
-              className="text-3xl text-light-gray hover:text-pure-white py-3 transition-all duration-300 ripple-effect"
+              className="text-3xl text-light-gray hover:text-pure-white py-3 px-4 transition-all duration-300 ripple-effect w-full text-center"
               style={{ 
                 animationDelay: `${index * 0.1}s`,
                 opacity: isMobileMenuOpen ? 1 : 0,

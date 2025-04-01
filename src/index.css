@@ -7,15 +7,38 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
   
   body {
     @apply bg-primary-dark text-white font-barlow;
     min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  /* Fix pre 100vh bug na iOS zariadeniach */
+  :root {
+    --vh: 1vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-barlow font-bold tracking-wide;
+  }
+
+  /* iOS optimalizácie */
+  input, textarea, button, select {
+    @apply appearance-none;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  /* Odstránenie modrého highlightu pri kliknutí na iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Viac globálnych štýlov tu */
@@ -24,7 +47,11 @@
 /* Utility classes */
 @layer components {
   .hero-section-with-real-image {
-    @apply relative min-h-screen flex items-center overflow-hidden;
+    @apply relative flex items-center overflow-hidden;
+    height: 100vh; /* Štandardná výška */
+    height: calc(var(--vh, 1vh) * 100); /* Fixnutá výška pre iOS */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .hero-real-background {
@@ -34,15 +61,29 @@
   }
 
   .hero-text-container {
-    @apply max-w-xl py-16 px-8 bg-black bg-opacity-70 backdrop-blur-sm rounded-lg;
+    @apply max-w-xl py-12 px-6 sm:py-16 sm:px-8 bg-black bg-opacity-70 backdrop-blur-sm rounded-lg;
+    margin-left: env(safe-area-inset-left);
+    margin-right: env(safe-area-inset-right);
+    margin-top: env(safe-area-inset-top);
   }
 
   .hero-title {
-    @apply text-5xl sm:text-6xl md:text-7xl tracking-tight leading-none mb-6;
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-none mb-4 sm:mb-6;
   }
 
   .hero-description {
-    @apply text-lg md:text-xl text-light-gray mb-8;
+    @apply text-base sm:text-lg md:text-xl text-light-gray mb-6 sm:mb-8;
+  }
+
+  /* Mobilné optimalizácie */
+  .mobile-safe-padding {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .mobile-safe-margin {
+    margin-left: env(safe-area-inset-left);
+    margin-right: env(safe-area-inset-right);
   }
 
   /* Viac komponentov tu */
