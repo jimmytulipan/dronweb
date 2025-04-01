@@ -89,4 +89,24 @@
   /* Viac komponentov tu */
 }
 
-/* Možu byť pridané ďalšie štýly podľa potreby */ 
+/* Možu byť pridané ďalšie štýly podľa potreby */
+
+/* Mobile-optimalizované triedy pre fixný header */
+@media (max-width: 768px) {
+  .min-h-screen {
+    padding-top: 4rem; /* Padding pre fixnú hlavičku */
+  }
+  
+  /* Na väčších obrazovkách sa header už prispôsobuje */
+  .hero-section {
+    padding-top: calc(4rem + env(safe-area-inset-top)); /* Pridanie extra priestoru pod headerom */
+  }
+}
+
+/* Mobilný header - extra štýly */
+.mobile-header-fixed {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+} 

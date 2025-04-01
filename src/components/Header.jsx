@@ -5,6 +5,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Dynamické hodnoty na základe scrollovania
   const dynamicBgOpacity = Math.min(0.9, Math.max(0.6, scrollProgress * 1.2));
@@ -49,18 +50,33 @@ const Header = () => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
-  
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <header 
-      className="fixed w-full z-50 transition-all duration-700 ease-in-out"
+      className={`fixed w-full z-50 transition-all duration-700 ease-in-out ${isMobile ? 'mobile-header-fixed' : ''}`}
       style={{
-        backgroundColor: scrolled ? `rgba(24, 24, 24, ${dynamicBgOpacity})` : 'transparent',
-        backdropFilter: scrolled ? `blur(${dynamicBlur})` : 'none',
-        WebkitBackdropFilter: scrolled ? `blur(${dynamicBlur})` : 'none',
+        backgroundColor: scrolled ? `rgba(24, 24, 24, ${dynamicBgOpacity})` : 'rgba(24, 24, 24, 0.8)', // Tmavšie pozadie aj bez scrollu na mobile
+        backdropFilter: `blur(${scrolled ? dynamicBlur : '5px'})`, // Vždy mierne rozmazané na mobile
+        WebkitBackdropFilter: `blur(${scrolled ? dynamicBlur : '5px'})`,
         paddingTop: `calc(${dynamicPaddingTop} + env(safe-area-inset-top))`,
         paddingBottom: dynamicPaddingBottom,
-        boxShadow: scrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' : 'none',
+        boxShadow: scrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3)' : 'none',
         borderBottom: scrolled ? 'none' : '1px solid rgba(255, 0, 0, 0.2)', // Jemná červená linka keď nie je scrollnuté
+        position: 'fixed', // Zaisťuje, že na všetkých zariadeniach je header fixovaný
+        top: 0,
+        zIndex: 1000 // Vyššia z-index hodnota pre mobile zaistí, že header je vždy nad ostatným obsahom
       }}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-start relative">
@@ -112,9 +128,14 @@ const Header = () => {
       </div>
 
       {/* Mobilné menu - optimalizované pre iPhone */}
-      <div className={`fixed inset-0 z-40 bg-dark-gray bg-opacity-95 backdrop-filter backdrop-blur-lg transform transition-transform duration-500 ease-in-out ${
+      <div className={`fixed inset-0 z-50 bg-dark-gray bg-opacity-95 backdrop-filter backdrop-blur-lg transform transition-transform duration-500 ease-in-out ${
         isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-      }`} style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      }`} style={{ 
+        paddingTop: 'calc(4rem + env(safe-area-inset-top))', // Väčší padding-top pre fixný header
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        top: 0, // Začiatok od vrchu obrazovky
+        height: '100%' // Plná výška obrazovky
+      }}>
         <div className="absolute top-4 right-4" style={{ top: 'calc(1rem + env(safe-area-inset-top))' }}>
           <button 
             className="text-light-gray hover:text-pure-white p-2" 
