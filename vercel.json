@@ -8,5 +8,7 @@
   "framework": "vite",
   "buildCommand": "node node_modules/vite/bin/vite.js build",
   "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "version": 2,
+  "deploymentUpdated": "2025-09-28"
 } 
