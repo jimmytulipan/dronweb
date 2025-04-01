@@ -35,6 +35,8 @@ const HomePage = () => {
   const [newVideoCategory, setNewVideoCategory] = useState('FPV');
   const [userVideos, setUserVideos] = useState([]);
   const [isAddingVideo, setIsAddingVideo] = useState(false);
+  const [addSuccess, setAddSuccess] = useState(false); // Pridal som feedback pre užívateľa
+  const [deleteSuccess, setDeleteSuccess] = useState(false); // Feedback pri zmazaní
   const pixelContainerRef = useRef(null); // Ref pre kontajner pixelov
   const [activeFilter, setActiveFilter] = useState('all'); // Nový state pre aktívny filter
   const filterContainerRef = useRef(null); // Ref pre kontajner filtrov
@@ -112,6 +114,15 @@ const HomePage = () => {
     // Uložíme do localStorage pre perzistenciu
     try {
       localStorage.setItem('userVideos', JSON.stringify(updatedVideos));
+      
+      // Zobrazíme správu o úspechu
+      setAddSuccess(true);
+      setTimeout(() => {
+        setAddSuccess(false);
+      }, 3000);
+      
+      // Po pridaní videa nastavíme filter na "all", aby bolo viditeľné
+      setActiveFilter('all');
     } catch (e) {
       console.error('Chyba pri ukladaní videí do localStorage', e);
     }
@@ -119,6 +130,27 @@ const HomePage = () => {
     setNewVideoUrl('');
     setNewVideoTitle('');
     setIsAddingVideo(false);
+  };
+
+  // Funkcia na odstránenie videa
+  const handleDeleteVideo = (videoId) => {
+    if (window.confirm('Naozaj chcete odstrániť toto video?')) {
+      const updatedVideos = userVideos.filter(video => video.id !== videoId);
+      setUserVideos(updatedVideos);
+      
+      // Aktualizácia localStorage
+      try {
+        localStorage.setItem('userVideos', JSON.stringify(updatedVideos));
+        
+        // Zobrazíme správu o úspešnom zmazaní
+        setDeleteSuccess(true);
+        setTimeout(() => {
+          setDeleteSuccess(false);
+        }, 3000);
+      } catch (e) {
+        console.error('Chyba pri aktualizácii localStorage', e);
+      }
+    }
   };
 
   // Načítanie používateľských videí z localStorage pri inicializácii
@@ -641,6 +673,21 @@ const HomePage = () => {
                 {isAddingVideo ? 'ZRUŠIŤ' : 'PRIDAŤ SVOJE VIDEO'}
               </Button>
             </div>
+            
+            {/* Správa o úspešnom pridaní videa */}
+            {addSuccess && (
+              <div className="bg-green-600 text-white rounded-md p-3 mb-4 max-w-2xl mx-auto text-center animate-fadeIn">
+                Video bolo úspešne pridané! Môžete ho nájsť vo vašej kolekcii.
+              </div>
+            )}
+            
+            {/* Správa o úspešnom zmazaní videa */}
+            {deleteSuccess && (
+              <div className="bg-blue-600 text-white rounded-md p-3 mb-4 max-w-2xl mx-auto text-center animate-fadeIn">
+                Video bolo úspešne odstránené z vašej kolekcie.
+              </div>
+            )}
+            
             {/* Formulár na pridanie videa */} 
             {isAddingVideo && (
               <div className="bg-dark-gray bg-opacity-80 backdrop-filter backdrop-blur-sm p-4 sm:p-6 rounded-lg mb-8 md:mb-10 shadow-lg max-w-2xl mx-auto">
@@ -688,14 +735,27 @@ const HomePage = () => {
             )}
             {/* Grid s videami */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-4 md:px-0">
-              {userVideos.map((video, index) => (
+              {userVideos
+                .filter(video => activeFilter === 'all' || video.category === activeFilter)
+                .map((video, index) => (
                  <div key={video.id} className="card-3d-effect" style={{ animationDelay: `${index * 0.2}s` }}>
-                   <VideoCard video={video} className="card-3d-content" />
+                   <VideoCard 
+                     video={video} 
+                     className="card-3d-content" 
+                     onDelete={handleDeleteVideo}
+                     isUserVideo={true}
+                   />
                  </div>
               ))}
-              {sampleVideos.map((video, index) => (
+              {sampleVideos
+                .filter(video => activeFilter === 'all' || video.category === activeFilter)
+                .map((video, index) => (
                  <div key={video.id} className="card-3d-effect" style={{ animationDelay: `${index * 0.2}s` }}>
-                    <VideoCard video={video} className="card-3d-content" />
+                    <VideoCard 
+                      video={video} 
+                      className="card-3d-content"
+                      isUserVideo={false}
+                    />
                  </div>
               ))}
             </div>

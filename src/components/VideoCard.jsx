@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FaHeart, FaComment, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaHeart, FaComment, FaMapMarkerAlt, FaTrash } from 'react-icons/fa';
 
-const VideoCard = ({ video, className = '' }) => {
+const VideoCard = ({ video, className = '', onDelete, isUserVideo = false }) => {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   
@@ -11,6 +11,11 @@ const VideoCard = ({ video, className = '' }) => {
   
   const toggleComments = () => {
     setShowComments(!showComments);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    onDelete(video.id);
   };
   
   return (
@@ -41,11 +46,31 @@ const VideoCard = ({ video, className = '' }) => {
         <div className="absolute top-3 right-3 bg-primary-red text-white text-sm py-1 px-3 rounded-full shadow-md">
           {video.category}
         </div>
+
+        {/* Indikátor používateľského videa */}
+        {isUserVideo && (
+          <div className="absolute top-3 left-3 bg-blue-500 text-white text-xs py-1 px-2 rounded-full shadow-md">
+            Moje video
+          </div>
+        )}
       </div>
       
       {/* Detaily videa */}
       <div className="p-4">
-        <h3 className="text-lg sm:text-xl font-bold text-white truncate">{video.title}</h3>
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-lg sm:text-xl font-bold text-white truncate pr-2">{video.title}</h3>
+          
+          {/* Tlačidlo na odstránenie len pre používateľské videá */}
+          {isUserVideo && onDelete && (
+            <button 
+              className="text-gray-400 hover:text-primary-red transition-colors duration-200"
+              onClick={handleDelete}
+              aria-label="Zmazať video"
+            >
+              <FaTrash className="text-base" />
+            </button>
+          )}
+        </div>
         
         {/* Interakcie */}
         <div className="flex items-center mt-3 space-x-4">
