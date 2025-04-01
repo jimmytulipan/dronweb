@@ -5,11 +5,13 @@ const VideoCard = ({ video, className = '', onDelete, isUserVideo = false }) => 
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   
-  const handleLike = () => {
+  const handleLike = (e) => {
+    e.stopPropagation();
     setLiked(!liked);
   };
   
-  const toggleComments = () => {
+  const toggleComments = (e) => {
+    e.stopPropagation();
     setShowComments(!showComments);
   };
 
@@ -29,13 +31,14 @@ const VideoCard = ({ video, className = '', onDelete, isUserVideo = false }) => 
           loading="lazy"
         />
         
-        {/* Play tlačidlo */}
+        {/* Play tlačidlo - zmenšené - len v strede */}
         <a 
           href={`https://www.youtube.com/watch?v=${video.youtubeId}`} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
           aria-label={`Prehrať video: ${video.title}`}
+          onClick={(e) => e.stopPropagation()}
         >
           <div className="w-16 h-16 bg-primary-red bg-opacity-90 rounded-full flex items-center justify-center transform transition-transform duration-300 hover:scale-110 hover:bg-opacity-100 shadow-lg">
             <div className="w-0 h-0 ml-2 border-t-[10px] border-b-[10px] border-l-[15px] border-transparent border-l-white"></div>
