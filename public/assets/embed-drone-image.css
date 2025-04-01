@@ -1,0 +1,64 @@
+/* 
+ * Tento súbor by normálne obsahoval Base64 kódovaný obrázok drona, ale keďže
+ * by to zabralo príliš veľa miesta, tu je len zástupný kód.
+ * V reálnom nasadení by sme buď použili:
+ * 1. Priamo obrázok ako normálny súbor
+ * 2. Base64 kódovaný obrázok pre rýchle načítanie
+ */
+
+.hero-section-with-real-image {
+  position: relative;
+  height: 100vh; /* Zvýšená výška pre lepšie zobrazenie celého obrázku */
+  display: flex;
+  align-items: flex-start; /* Zmena z center na flex-start */
+  justify-content: flex-start;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+/* Hlavný obrázok na pozadí */
+.hero-real-background {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/drone-background.png'); /* Cesta k obrázku */
+  background-size: cover;
+  background-position: center right; /* Upravené na center right pre lepšie zobrazenie bicyklistu */
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Tmavší overlay pre lepšiu čitateľnosť textu - teraz iba gradient zľava, 
+   aby sme nechali plnú viditeľnosť bicyklistu a drona na pravej strane */
+.hero-section-with-real-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  z-index: 1;
+}
+
+/* Nastavenia pre mobilné zariadenia */
+@media (max-width: 768px) {
+  .hero-section-with-real-image {
+    height: 90vh;
+  }
+  
+  .hero-real-background {
+    background-position: 60% center; /* Posunutie obrázku na mobilných zariadeniach */
+  }
+  
+  .hero-section-with-real-image::before {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+  }
+} 

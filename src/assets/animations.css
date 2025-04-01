@@ -1,0 +1,664 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&display=swap');
+
+/* Moderné animácie pre web 2025 */
+
+/* ----- GLOBÁLNE ANIMÁCIE ----- */
+
+/* Plynulé zobrazenie stránky */
+@keyframes fadeInPage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Moderný glitch efekt */
+@keyframes glitchEffect {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  100% {
+    text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+}
+
+/* Neonový glow pulz */
+@keyframes neonPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.3));
+  }
+}
+
+/* 3D Flip animácia */
+@keyframes flip3D {
+  0% {
+    transform: perspective(800px) rotateY(0);
+  }
+  100% {
+    transform: perspective(800px) rotateY(180deg);
+  }
+}
+
+/* Vznášajúci sa efekt */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Morphing blob v pozadí */
+@keyframes morphBlob {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+/* ----- HERO SEKCIA ANIMÁCIE ----- */
+
+/* Animácia pre hero sekciu */
+.hero-animate {
+  animation: fadeInPage 1.2s ease-out forwards;
+}
+
+/* Animácia pre nadpis */
+.hero-title-animate {
+  animation: glitchEffect 3s infinite alternate;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Jednoduchšia, elegantnejšia animácia pre nadpis */
+.hero-title-simple {
+  position: relative;
+  overflow: hidden;
+  color: white;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  animation: subtleGlow 5s ease-in-out infinite alternate;
+}
+@keyframes subtleGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.2);
+    letter-spacing: 0;
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 0, 0, 0.1);
+    letter-spacing: 1px;
+  }
+}
+
+/* Moderná animácia textového bloku */
+.hero-text-animate {
+  position: relative;
+  z-index: 5;
+  animation: fadeInPage 0.8s ease-out forwards, float 6s ease-in-out infinite;
+}
+
+/* Animovaný neohrávajúci border */
+.hero-border-animate {
+  position: relative;
+}
+.hero-border-animate::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #FF0000;
+  animation: borderSignalPulse 4s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes borderSignalPulse {
+  0%, 100% {
+    transform: scaleY(0.6);
+    opacity: 0.6;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  10% {
+    transform: scaleY(1.1); 
+    opacity: 1;
+    box-shadow: 0 0 15px 3px rgba(255, 0, 0, 0.8);
+  }
+  20% {
+    transform: scaleY(0.5);
+    opacity: 0.5;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    transform: scaleY(0.7);
+    opacity: 0.7;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+  }
+}
+
+/* Animovaný border pre položky menu */
+.menu-item-border-animate {
+  position: relative; /* Už by mal byť nastavený na <a> tagu */
+}
+.menu-item-border-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px; /* Posunutie kúsok od textu */
+  width: 2px; /* Tenšia čiara */
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(255, 0, 0, 0.7), transparent);
+  animation: borderPulse 4s ease infinite;
+}
+
+@keyframes borderPulse {
+  0%, 100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  /* Pridaná opacity pre plynulejší efekt */
+}
+
+/* Paralax efekt pre pozadie */
+.parallax-bg {
+  transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* 3D tilt efekt pre karty - trojrozmerný efekt pri hoveri */
+.card-3d-effect {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.card-3d-content {
+  transform: translateZ(60px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Holografický efekt pre tlačidla */
+.button-holographic {
+  position: relative;
+  overflow: hidden;
+}
+.button-holographic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: holographicSweep 3s infinite;
+}
+@keyframes holographicSweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  15%, 100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+/* Interaktívny hover efekt s ripple */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+}
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Futuristická typing animácia */
+.typing-effect::after {
+  content: '|';
+  animation: blink 1s step-start infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Blob morphing pre dekoratívne prvky */
+.blob-morph {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, #f00, #f0f);
+  position: absolute;
+  filter: blur(20px);
+  opacity: 0.3;
+  animation: morphBlob 20s ease-in-out infinite, float 15s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+/* Animácia pre loader */
+.futuristic-loader {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FF0000;
+  animation: spin 1s linear infinite;
+  position: relative;
+}
+.futuristic-loader:before, .futuristic-loader:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+.futuristic-loader:before {
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-top-color: #FF5500;
+  animation: spin 2s linear infinite;
+}
+.futuristic-loader:after {
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-top-color: #FFAA00;
+  animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animovaný glow text */
+.gradient-text {
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+  animation: textGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes textGlowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.4);
+  }
+}
+
+.font-barlow {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Animácia pre nadpis sekcie - vylepšená */
+.section-title-animate {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  animation: titleReveal 1s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Tieň pre nadpis */
+.title-shadow {
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Štýl pre filter tlačidlá - širší padding */
+.filter-button {
+  padding: 10px 25px; /* Zväčšený padding */
+  border-radius: 25px; /* Väčšie zaoblenie */
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #b0b0b0; /* Trochu tmavšia neaktívna farba */
+  font-weight: 600; /* Mierne tučnejšie */
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Plynulejší prechod */
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 3px 8px rgba(0,0,0, 0.25);
+  display: inline-flex; /* Aby ikonka a text boli pekne vedľa seba */
+  align-items: center;
+}
+
+/* Hover efekt - jemnejší */
+.filter-button:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px) scale(1.03); /* Jemné zväčšenie a posun */
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.25); 
+  border-color: rgba(255, 0, 0, 0.3);
+}
+
+/* Odstránenie :before pre hover, pridáme iný efekt */
+.filter-button::before {
+  display: none; 
+}
+
+/* Aktívny filter - výraznejší */
+.filter-button.active {
+  color: #ffffff;
+  background-color: rgba(255, 0, 0, 0.15);
+  border-color: rgba(255, 0, 0, 0.6);
+  transform: scale(1.05); /* Mierne väčší keď je aktívny */
+  box-shadow: 0 5px 12px rgba(255, 0, 0, 0.3);
+}
+
+/* Animovaný indikátor pod filtrami - hrubší a pulzujúci */
+.filter-indicator {
+  box-shadow: 0 0 12px 3px rgba(255, 0, 0, 0.6); /* Silnejšia žiara */
+  /* Aktivovaná pulzujúca animácia */
+  animation: indicatorPulse 2.5s infinite ease-in-out; 
+}
+
+@keyframes indicatorPulse {
+  0%, 100% {
+    transform: scaleX(1);
+    box-shadow: 0 0 12px 3px rgba(255, 0, 0, 0.6);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleX(1.08);
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8);
+    opacity: 1;
+  }
+}
+
+/* Interaktívne pozadie za filtrami - intenzívnejšie */
+.filter-background-hover {
+  position: absolute;
+  top: -25px; /* Zväčšený rozsah */
+  left: -30px;
+  right: -30px;
+  bottom: -30px; 
+  background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.12) 0%, transparent 65%); /* Intenzívnejší gradient */
+  border-radius: 40px; /* Väčšie zaoblenie */
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.6s cubic-bezier(0.1, 0.9, 0.2, 1); /* Mierne upravený prechod */
+  z-index: -1; 
+  pointer-events: none; 
+}
+
+.filter-container:hover .filter-background-hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Štýly pre Blueprint strapce - Crysis nanooblekový štýl */
+.blueprint-streamer {
+  fill: none;
+  stroke: rgba(255, 0, 0, 0.95);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 580;
+  stroke-dashoffset: 580;
+  animation: powerUpLine 4s forwards cubic-bezier(0.3, 0.7, 0.4, 0.9);
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.9));
+  z-index: 20; /* Ešte vyšší z-index */
+}
+
+/* Oneskorenia pre sekvenčnú animáciu */
+.streamer-left {
+  animation-delay: 0.3s;
+}
+.streamer-right {
+  animation-delay: 0.6s;
+}
+
+/* Crysis Nanosuit prvky animácie */
+.nano-energy-bar {
+  animation: energyBarGlow 3s infinite alternate ease-in-out;
+}
+
+.nano-energy-fill {
+  animation: energyFillPulse 2s infinite alternate ease-in-out;
+}
+
+.nano-line {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: nanoDraw 1s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-delay: 2s;
+}
+
+.nano-text {
+  opacity: 0;
+  animation: nanoTextBoot 4s forwards cubic-bezier(0.2, 0.9, 0.3, 1);
+  animation-delay: 1.5s;
+}
+
+.nano-text-right {
+  animation-delay: 1.8s;
+}
+
+.nano-hex {
+  opacity: 0;
+  transform-origin: center;
+  animation: hexActivate 3s infinite alternate ease-in-out;
+  animation-delay: 2.2s;
+}
+
+.direction-indicator {
+  opacity: 0;
+  animation: directionBlink 1s infinite ease-in-out;
+  animation-delay: 3s;
+}
+
+.nano-counter {
+  opacity: 0;
+  animation: counterActivate 0.5s forwards, counterUpdate 3s infinite;
+  animation-delay: 2.5s, 3s;
+}
+
+/* Futuristické Crysis animácie */
+@keyframes energyBarGlow {
+  0% {
+    stroke: rgba(255, 0, 0, 0.7);
+    filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.5));
+  }
+  100% {
+    stroke: rgba(255, 0, 0, 1);
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.9));
+  }
+}
+
+@keyframes energyFillPulse {
+  0% {
+    fill: rgba(255, 0, 0, 0.3);
+    filter: none;
+  }
+  100% {
+    fill: rgba(255, 20, 20, 0.8);
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+  }
+}
+
+@keyframes nanoDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes nanoTextBoot {
+  0% {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.9);
+    filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0) scale(1.1);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 1));
+  }
+  30% {
+    opacity: 0.2;
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.8));
+  }
+  50% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.6));
+  }
+  60%, 100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.7));
+  }
+}
+
+@keyframes hexActivate {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+    stroke: rgba(255, 0, 0, 0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.1);
+    stroke: rgba(255, 0, 0, 1);
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.9));
+  }
+  20%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+    stroke: rgba(255, 0, 0, 0.8);
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.6));
+  }
+}
+
+@keyframes directionBlink {
+  0%, 49% {
+    opacity: 0;
+  }
+  50%, 100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes counterActivate {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes counterUpdate {
+  0%, 90% {
+    filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.6));
+  }
+  91%, 100% {
+    filter: drop-shadow(0 0 6px rgba(255, 0, 0, 1));
+  }
+}
+
+/* Jednoduchšia animácia pre čiary - s jemným pulzom po nakreslení */
+@keyframes powerUpLine {
+  0% {
+    stroke-dashoffset: 580;
+    stroke: rgba(255, 0, 0, 0.2);
+    filter: drop-shadow(0 0 0px rgba(255, 0, 0, 0));
+    stroke-width: 2;
+  }
+  30% {
+    stroke-dashoffset: 0;
+    stroke: rgba(255, 150, 150, 1);
+    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 1)) drop-shadow(0 0 10px rgba(255, 0, 0, 1));
+    stroke-width: 5;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    stroke: rgba(255, 0, 0, 1);
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 0, 0, 1));
+    stroke-width: 4;
+  }
+  70%, 90% {
+    stroke: rgba(255, 50, 50, 0.95);
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.7));
+  }
+  80%, 100% {
+    stroke: rgba(255, 0, 0, 0.85);
+    filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.8));
+  }
+}
+
+/* Hexagonálne pozadie */
+.hex-background {
+  background-color: transparent; /* Základ je transparentný */
+  opacity: 0.05; /* Veľmi jemné */
+  background-image:
+    linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(60deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(120deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 34px 60px; /* Veľkosť hexagónov */
+  animation: hexFlow 20s linear infinite;
+}
+
+@keyframes hexFlow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 68px 120px; /* Posun o 2x veľkosť pre plynulý loop */
+  }
+} 

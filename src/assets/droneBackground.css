@@ -1,0 +1,366 @@
+.hero-section {
+  background-color: #1a1a1a; /* Tmavé pozadie */
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  overflow: hidden;
+}
+
+/* Pozadie pre simuláciu obrázku z ukážky */
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background-color: #1a1a1a;
+  z-index: 0;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.9),
+    rgba(26, 26, 26, 0.8)
+  );
+}
+
+/* Simulácia drona v pozadí pomocou tieňov */
+.hero-background::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  right: -10%;
+  top: 15%;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(60, 60, 60, 0.6) 0%, rgba(26, 26, 26, 0) 70%),
+    radial-gradient(circle at 60% 40%, rgba(80, 80, 80, 0.5) 0%, rgba(26, 26, 26, 0) 60%);
+  z-index: 1;
+}
+
+/* Simulácia lesného pozadia */
+.hero-background::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 40%;
+  bottom: 0;
+  left: 0;
+  background-image: 
+    linear-gradient(to top, rgba(21, 71, 21, 0.6) 0%, rgba(26, 26, 26, 0) 100%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(21, 71, 21, 0.4) 0%,
+      rgba(21, 71, 21, 0.5) 2%,
+      rgba(21, 71, 21, 0.3) 4%,
+      rgba(21, 71, 21, 0.4) 6%
+    );
+  filter: blur(2px);
+  z-index: 1;
+}
+
+/* Overlay pre lepšiu viditeľnosť textu */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(26, 26, 26, 0.4);
+  z-index: 2;
+}
+
+/* Štýl pre text */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 36rem;
+  padding: 0 1.5rem;
+}
+
+/* Štýly pre text blok */
+.hero-text-container {
+  display: inline-block;
+  background-color: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #FF0000;
+  max-width: 40rem;
+  transition: all 0.3s ease;
+}
+
+.hero-text-container:hover {
+  background-color: rgba(26, 26, 26, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: bold;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #cccccc;
+  margin-bottom: 2rem;
+  max-width: 32rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Upravený positioning pre textový blok na rôznych zariadeniach */
+@media (max-width: 768px) {
+  .hero-text-container {
+    margin-top: 6rem;
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1280px) {
+  .hero-text-container {
+    margin-top: 8rem;
+    margin-left: 2rem;
+  }
+}
+
+@media (min-width: 1281px) {
+  .hero-text-container {
+    margin-top: 10rem;
+    margin-left: 4rem;
+  }
+}
+
+/* Štýly pre pozadie dronu */
+
+/* Hlavné pozadie pre sekciu hero */
+.hero-real-background {
+  background-image: url('/assets/drone-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Overlay na pozadí pre lepší kontrast textu - zjemnená verzia */
+.hero-section-with-real-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)); /* Znížená opacita */
+  z-index: 1;
+}
+
+/* Hero Sekcia s obrázkom na pozadí - pridanie position relative aby prechodový element mohol byť napevno pripojený */
+.hero-section-with-real-image {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  overflow: hidden;
+}
+
+/* Nový kreatívny prechod - Geometrický vzor s maskou - ODSTRÁNENÉ */
+/*
+.section-transition {
+  position: absolute;
+  bottom: 0; 
+  left: 0;
+  right: 0;
+  height: 180px; 
+  z-index: 5; 
+  overflow: hidden;
+  transform: translateZ(0);
+  pointer-events: none;
+  background-color: #1a1a1a; 
+  
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, transparent 100%);
+}
+*/
+
+/* Pseudo-element pre geometrický vzor - ODSTRÁNENÉ */
+/*
+.section-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 0, 0, 0.05) 0,
+      rgba(255, 0, 0, 0.05) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(50, 50, 50, 0.1) 0,
+      rgba(50, 50, 50, 0.1) 2px,
+      transparent 2px,
+      transparent 10px
+    );
+  opacity: 0.7;
+  z-index: 1; 
+}
+*/
+
+/* Animovaná vrstva s gradientom pre efekt "pohybu" - ODSTRÁNENÉ */
+/*
+.wave-animated-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 20%, rgba(255, 0, 0, 0.08) 40%, rgba(0, 0, 0, 0) 60%, rgba(255, 0, 0, 0.1) 80%, rgba(0, 0, 0, 0) 100%);
+  animation: waveMove 8s infinite linear;
+  opacity: 0.6;
+  z-index: 2; 
+}
+*/
+
+/* Vznášajúce sa častice drona - ODSTRÁNENÉ (nahradí ich pixel dissolve) */
+/*
+.drone-particles {
+  position: absolute;
+  top: -50px; 
+  left: 0;
+  width: 100%;
+  height: calc(100% + 50px); 
+  pointer-events: none;
+  z-index: 3; 
+}
+
+.drone-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: rgba(255, 0, 0, 0.6);
+  border-radius: 50%;
+  filter: blur(1px);
+  box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.3);
+  opacity: 0;
+  animation: particleFloat 6s infinite ease-in-out;
+}
+*/
+
+/* Nový prechodový kontajner - UPRAVENÝ PRE POHYB HORE */
+.section-transition {
+  position: absolute;
+  bottom: -50px; /* Posunutý dole, aby prekryl viac priestoru pod hero sekciou */
+  left: 0;
+  right: 0;
+  height: 100vh; /* Výška cez celú obrazovku, aby pixely mali kam letieť */
+  z-index: 5;
+  overflow: visible; /* Povolíme pixelom vyletieť z kontajnera */
+  pointer-events: none;
+  /* Pozadie je teraz len jemný gradient úplne dole */
+  background: linear-gradient(to bottom, transparent 80%, rgba(26, 26, 26, 0.8) 95%, #1a1a1a 100%); 
+}
+
+/* Kontajner pre pixely - UPRAVENÝ */
+.pixel-particles-container {
+  position: absolute;
+  bottom: 50px; /* Začína presne tam, kde section-transition */
+  left: 0;
+  width: 100%;
+  height: 200px; /* Výška oblasti, kde sa pixely generujú a začínajú */
+}
+
+/* Štýl pre jednotlivé pixely - bez zmien */
+.pixel-particle {
+  position: absolute;
+  width: 4px; 
+  height: 4px;
+  background-color: var(--pixel-color, rgba(255, 255, 255, 0.7));
+  opacity: 0;
+  animation: pixelDissolve 3s infinite ease-out; /* Dĺžka bude prepísaná JS */
+  box-shadow: 0 0 5px 1px var(--pixel-glow, rgba(255, 0, 0, 0)); 
+}
+
+/* Animácia pre pixel dissolve - UPRAVENÁ PRE POHYB HORE */
+@keyframes pixelDissolve {
+  0% {
+    /* Začína na svojej pozícii (generovanej JS v spodnej časti) */
+    transform: translateY(0) scale(1);
+    opacity: 0; 
+  }
+  15% {
+    /* Rýchlo sa objaví */
+    opacity: var(--pixel-opacity, 0.8); 
+  }
+  90% {
+    /* Stále viditeľný počas dlhšieho letu hore */
+    opacity: calc(var(--pixel-opacity, 0.8) * 0.5); /* Postupne bledne */
+  }
+  100% {
+    /* Letí vysoko hore (napr. -800px) a zmenšuje sa */
+    transform: translateY(-800px) scale(0.3); 
+    opacity: 0; /* Zmizne úplne */
+  }
+}
+
+/* Odstránenie nepotrebných pravidiel */
+/*
+@keyframes waveMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes particleFloat {
+  0% {
+    transform: translateY(80px); 
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px); 
+    opacity: 0;
+  }
+}
+*/
+
+/* Media queries pre responzivitu - UPRAVENÉ */
+@media (max-width: 767px) {
+  .section-transition {
+     /* Výška zostáva 100vh */
+  }
+  .pixel-particles-container {
+    height: 150px; /* Nižšia generovacia oblasť na mobile */
+  }
+  .pixel-particle {
+    width: 3px;
+    height: 3px;
+  }
+  @keyframes pixelDissolve {
+    100% {
+      /* Menší rozsah pohybu hore na mobile */
+      transform: translateY(-600px) scale(0.3); 
+      opacity: 0;
+    }
+  }
+} 
