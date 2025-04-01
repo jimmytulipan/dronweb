@@ -68,4 +68,7 @@ Výsledné súbory sú vo zložke `dist/`, ktoré môžete nasadiť na váš ser
 - Implementácia vyhľadávania videí
 - Integrácia Google Maps/Mapy.cz API pre detailné zobrazenie lokácií
 - Možnosť nahrávať vlastné videá
-- Kategórie a filtrovanie videí 
+- Kategórie a filtrovanie videí
+
+## Aktualizácia pre Vercel
+Táto aktualizácia je určená na spustenie nového nasadenia na platforme Vercel. 
