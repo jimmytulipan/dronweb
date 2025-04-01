@@ -1,0 +1,2 @@
+Tu umiestnite obrázok drona z ukážky. 
+Premenujte ho na drone-background.jpg alebo upravte cestu v CSS súboroch podľa potreby. 
