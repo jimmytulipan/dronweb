@@ -2,42 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
-  // Dynamické hodnoty na základe scrollovania
-  const dynamicBgOpacity = Math.min(0.9, Math.max(0.6, scrollProgress * 1.2));
-  const dynamicBlur = `${Math.min(10, Math.max(5, scrollProgress * 15))}px`;
-  const dynamicPaddingTop = scrolled ? `${Math.max(0.5, 1.5 - scrollProgress)}rem` : '1.5rem';
-  const dynamicPaddingBottom = scrolled ? `${Math.max(0.5, 1.5 - scrollProgress)}rem` : '1.5rem';
-  const dynamicBottomOffset = scrolled ? '0px' : '-1px';
-
-  // Nastavenie počúvania na scroll udalosť
-  useEffect(() => {
-    const handleScroll = () => {
-      // Ak sme scrollli viac ako 50px, nastavíme header ako scrolled
-      const isScrolled = window.scrollY > 50;
-      setScrolled(isScrolled);
-      
-      // Výpočet progress pre progress bar - max hodnota je výška dokumentu - výška okna
-      const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-      const progressValue = Math.min(1, window.scrollY / scrollMax);
-      setScrollProgress(progressValue);
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Pri prvom načítaní stránky
-    handleScroll();
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   // Po otvorení mobilného menu zablokovať scrollovanie body
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -65,18 +32,17 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed w-full z-50 transition-all duration-700 ease-in-out ${isMobile ? 'mobile-header-fixed' : ''}`}
+      className={`sticky w-full z-50 ${isMobile ? 'mobile-header-fixed' : ''}`}
       style={{
-        backgroundColor: scrolled ? `rgba(24, 24, 24, ${dynamicBgOpacity})` : 'rgba(24, 24, 24, 0.8)', // Tmavšie pozadie aj bez scrollu na mobile
-        backdropFilter: `blur(${scrolled ? dynamicBlur : '5px'})`, // Vždy mierne rozmazané na mobile
-        WebkitBackdropFilter: `blur(${scrolled ? dynamicBlur : '5px'})`,
-        paddingTop: `calc(${dynamicPaddingTop} + env(safe-area-inset-top))`,
-        paddingBottom: dynamicPaddingBottom,
-        boxShadow: scrolled ? '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3)' : 'none',
-        borderBottom: scrolled ? 'none' : '1px solid rgba(255, 0, 0, 0.2)', // Jemná červená linka keď nie je scrollnuté
-        position: 'fixed', // Zaisťuje, že na všetkých zariadeniach je header fixovaný
+        backgroundColor: 'rgba(24, 24, 24, 0.9)',
+        backdropFilter: 'blur(5px)',
+        WebkitBackdropFilter: 'blur(5px)',
+        paddingTop: 'calc(1rem + env(safe-area-inset-top))',
+        paddingBottom: '1rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        borderBottom: '1px solid rgba(255, 0, 0, 0.2)',
         top: 0,
-        zIndex: 1000 // Vyššia z-index hodnota pre mobile zaistí, že header je vždy nad ostatným obsahom
+        zIndex: 1000
       }}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-start relative">
@@ -114,17 +80,6 @@ const Header = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
           </svg>
         </button>
-
-        {/* Progresívna animovaná spodná lišta - s dynamickým bottom offsetom */}
-        <div className="absolute left-0 h-px bg-primary-red" 
-          style={{ 
-            bottom: dynamicBottomOffset, // Použitie dynamickej hodnoty
-            width: `${scrollProgress * 100}%`,
-            opacity: scrollProgress,
-            transition: 'all 0.5s ease-in-out', // Transition pre plynulý pohyb
-            boxShadow: `0 0 ${scrollProgress * 10}px ${scrollProgress * 3}px rgba(255, 0, 0, ${scrollProgress * 0.5})` // Dynamické glow
-          }}
-        ></div>
       </div>
 
       {/* Mobilné menu - optimalizované pre iPhone */}

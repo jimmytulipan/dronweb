@@ -18,6 +18,7 @@
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     overflow-x: hidden;
     overscroll-behavior-y: none;
+    padding-top: 80px; /* Základný padding pre fixný header na všetkých zariadeniach */
   }
 
   /* Fix pre 100vh bug na iOS zariadeniach */
@@ -52,6 +53,7 @@
     height: calc(var(--vh, 1vh) * 100); /* Fixnutá výška pre iOS */
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
+    margin-top: -80px; /* Kompenzuje padding-top na body */
   }
 
   .hero-real-background {
@@ -100,6 +102,11 @@
   /* Na väčších obrazovkách sa header už prispôsobuje */
   .hero-section {
     padding-top: calc(4rem + env(safe-area-inset-top)); /* Pridanie extra priestoru pod headerom */
+  }
+  
+  /* Zvýšený padding pre body na mobilných zariadeniach */
+  body {
+    padding-top: 70px;
   }
 }
 
